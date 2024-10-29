@@ -6,6 +6,7 @@
 
 # Allocate memory
 .data
+    prompt: .asciiz "Please enter a time in hour (1 - 24): "
     text_morning: .asciiz "It is morning.\n"
     text_noon: .asciiz "It is noon.\n"
     text_afternoon: .asciiz "It is afternoon.\n"
@@ -14,6 +15,11 @@
 # Code 
 .text
 main:
+    # Print prompt
+    li $v0, 4
+    la $a0, prompt
+    syscall
+
     li $v0, 5               # Syscall to read an integer
     syscall
     move $t1, $v0           # save the input in $t1

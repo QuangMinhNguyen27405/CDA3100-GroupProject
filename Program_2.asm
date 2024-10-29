@@ -6,6 +6,9 @@
 
 # Data section - Allocate memory
 .data
+    prompt_start: .asciiz "Please enter an integer to start: "
+    prompt_sequence: .asciiz "Please enter the number of number: "
+    sum_sequence: .asciiz "The sum of the sequence is: "
 
 # Code
 .text
@@ -16,9 +19,20 @@ main:
     j   test
 
 input_stream: 
-    li  $v0, 5               # Syscall to read an integer
+    # Print prompt
+    li $v0, 4
+    la $a0, prompt_start
+    syscall
+
+    # Read an integer
+    li  $v0, 5               
     syscall
     move $t1, $v0           # save the input in $t1
+
+    # Print prompt
+    li $v0, 4
+    la $a0, prompt_sequence
+    syscall
 
     li  $v0, 5               # Syscall to read an integer
     syscall
@@ -39,6 +53,10 @@ loop:
     j test
 
 print_output:
+    la $a0, sum_sequence
+    li $v0, 4       # Syscall to print integer in $a0
+    syscall
+
     move  $a0, $t5        # if not true
     li $v0, 1       # Syscall to print integer in $a0
     syscall

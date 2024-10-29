@@ -7,11 +7,18 @@
 # Data section - Allocate memory
 .data
     hexLookup: .byte '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
+    prompt: .asciiz "Please enter an integer from 0 to 15: "
 
 # Code
 .text
 main:
-    li  $v0, 5          # Syscall to read an integer
+    # Print prompt
+    li $v0, 4
+    la $a0, prompt
+    syscall
+
+    # Read an integer
+    li  $v0, 5          
     syscall
     move $t0, $v0       # save the input in $t1
 
